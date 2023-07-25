@@ -82,9 +82,10 @@ export type SendMessageType = {
 }
 
 export class Telegram {
-  private url = `https://api.telegram.org/bot${this.config.token}/`;
+  private url: string;
 
   constructor(private config: TelegramConfig) {
+    this.url = `https://api.telegram.org/bot${this.config.token}/`;
   }
 
   async request<T>(methodHTTP: 'POST' | 'GET', methodTelegram: string, params: any): Promise<unknown>;

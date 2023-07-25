@@ -1,7 +1,8 @@
 {
   "name": "front",
   "scripts": {
-    "dev": "solid-start dev",
+    "dev": "solid-start dev -p 5998",
+    "dev:bun": "bun run node_modules/solid-start/bin.cjs dev -p 5998",
     "build": "solid-start build",
     "start": "solid-start start"
   },

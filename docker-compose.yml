@@ -16,7 +16,7 @@ services:
   back:
     build: ./back
     ports:
-        - "8080:8080"
+        - "3001:3000"
     volumes:
         - ./back:/app
     environment:

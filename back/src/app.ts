@@ -2,6 +2,8 @@ import { join } from 'path';
 import AutoLoad, {AutoloadPluginOptions} from '@fastify/autoload';
 import { FastifyPluginAsync } from 'fastify';
 import { TelegramClient } from './telegram';
+import { Service } from './service';
+import { Model } from './model';
 
 export type AppOptions = {
   // Place your custom options for app below here.
@@ -10,6 +12,13 @@ export type AppOptions = {
 
 // Pass --options via CLI arguments in command to enable these options.
 const options: AppOptions = {
+}
+
+declare module 'fastify' {
+  interface FastifyInstance {
+    service: Service;
+    model: Model;
+  }
 }
 
 const app: FastifyPluginAsync<AppOptions> = async (
@@ -21,6 +30,12 @@ const app: FastifyPluginAsync<AppOptions> = async (
   });
 
   telegram.start();
+
+  const service = new Service();
+  const model = new Model(service, { telegram: { token: process.env.TELEGRAM_TOKEN || '' } });
+
+  fastify.decorate('service', service);
+  fastify.decorate('model', model);
   // Place here your custom code!
 
   // Do not touch the following lines
@@ -39,7 +54,6 @@ const app: FastifyPluginAsync<AppOptions> = async (
     dir: join(__dirname, 'routes'),
     options: opts
   })
-
 };
 
 export default app;
