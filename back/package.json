@@ -27,6 +27,7 @@
     "fastify": "^4.0.0",
     "fastify-cli": "^5.7.1",
     "fastify-plugin": "^4.0.0",
+    "node-html-parser": "^6.1.5",
     "pg": "^8.11.1",
     "sql-template-strings": "^2.2.2",
     "undici": "^5.22.1"
@@ -39,6 +40,7 @@
     "fastify-tsconfig": "^1.0.1",
     "tap": "^16.1.0",
     "ts-node": "^10.4.0",
+    "bun-types": "latest",
     "typescript": "^4.5.4"
   }
 }

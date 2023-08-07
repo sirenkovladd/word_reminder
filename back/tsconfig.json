@@ -2,6 +2,9 @@
   "extends": "fastify-tsconfig",
   "compilerOptions": {
     "outDir": "dist",
+    "types": [
+      "bun-types" // add Bun global
+    ],
     "sourceMap": true
   },
   "include": ["src/**/*.ts"]
