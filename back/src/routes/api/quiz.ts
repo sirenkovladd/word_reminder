@@ -30,7 +30,7 @@ const root: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
     schema: {
       headers: Authorization
     }
-  }, async function (request, reply) {
+  }, async function (request) {
     const user = fastify.model.user.checkAuthToken(request.headers.authorization);
     const groups = await fastify.model.quiz.getGroups(user.id);
     return groups;
@@ -41,10 +41,22 @@ const root: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       body: QuizPost,
       headers: Authorization
     }
-  }, async function (request, reply) {
+  }, async function (request) {
     const user = fastify.model.user.checkAuthToken(request.headers.authorization);
     const result = await fastify.model.quiz.checkAnswer(user.id, request.body.salt, request.body.id, request.body.answer);
     return result;
+  });
+
+  fastify.get<{ Headers: Static<typeof Authorization>, Body: Static<typeof QuizPost> }>('/quiz/words', {
+    schema: {
+      headers: Authorization
+    }
+  }, async function (request) {
+    const user = fastify.model.user.checkAuthToken(request.headers.authorization);
+    const result = await fastify.model.quiz.getWords(user.id);
+    return {
+      words: result
+    };
   });
 }
 

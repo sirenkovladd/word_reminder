@@ -14,6 +14,7 @@ import {
   Title,
 } from "solid-start";
 import "./root.css";
+import { TelegramProvider } from "./context/telegram";
 
 export default function Root() {
   const location = useLocation();
@@ -31,19 +32,21 @@ export default function Root() {
       <Body>
         <Suspense>
           <ErrorBoundary>
-            <nav class="bg-sky-800">
-              <ul class="container flex items-center p-3 text-gray-200">
-                <li class={`border-b-2 ${active("/")} mx-1.5 sm:mx-6`}>
-                  <A href="/">Home</A>
-                </li>
-                <li class={`border-b-2 ${active("/about")} mx-1.5 sm:mx-6`}>
-                  <A href="/about">About</A>
-                </li>
-              </ul>
-            </nav>
-            <Routes>
-              <FileRoutes />
-            </Routes>
+            <TelegramProvider>
+              <nav class="bg-sky-800">
+                <ul class="container flex items-center p-3 text-gray-200">
+                  <li class={`border-b-2 ${active("/")} mx-1.5 sm:mx-6`}>
+                    <A href="/telegram">Quiz</A>
+                  </li>
+                  <li class={`border-b-2 ${active("/about")} mx-1.5 sm:mx-6`}>
+                    <A href="/list-words">Words</A>
+                  </li>
+                </ul>
+              </nav>
+              <Routes>
+                <FileRoutes />
+              </Routes>
+            </TelegramProvider>
           </ErrorBoundary>
         </Suspense>
         <Scripts />

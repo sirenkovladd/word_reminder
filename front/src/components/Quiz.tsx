@@ -42,6 +42,8 @@ function DrawQuiz(props: { quiz: Quiz, answer: (answerId: string) => void, corre
   </>
 }
 
+let quizGlobal: Quiz | undefined;
+
 export default function Quiz(props: { token: string }) {
   const [isLoading, setIsLoading] = createSignal(false);
   const [canNext, setCanNext] = createSignal(false);
@@ -49,7 +51,7 @@ export default function Quiz(props: { token: string }) {
   const [status, setStatus] = createSignal<0 | 1 | 2>(0);
   const [selected, setSelected] = createSignal<string | undefined>();
 
-  const [quiz, setQuiz] = createSignal<Quiz>();
+  const [quiz, setQuiz] = createSignal<Quiz | undefined>(quizGlobal);
   async function fetchQuiz() {
     setIsLoading(true);
     try {
@@ -60,6 +62,7 @@ export default function Quiz(props: { token: string }) {
         },
       });
       const quiz = await response.json();
+      quizGlobal = quiz;
       setQuiz(quiz);
       setStatus(0);
       setCanNext(false);
@@ -93,14 +96,16 @@ export default function Quiz(props: { token: string }) {
       setIsLoading(false);
     }
   }
-  fetchQuiz();
+  if (!quiz()) {
+    fetchQuiz();
+  }
   return (
     <div>
       <Show when={isLoading()}>
         <div class="fixed">Loading...</div>
       </Show>
       <Show when={quiz()}>
-        <div class="max-6-xs text-6xl text-sky-700 font-thin uppercase my-16">Quiz</div>
+        <div class="max-6-xs text-6xl text-sky-700 font-thin uppercase md-16">Quiz</div>
         <DrawQuiz quiz={quiz()!} answer={answer} correct={correct()} status={status()} selected={selected()} />
       </Show>
       <Show when={status() === 1}>
